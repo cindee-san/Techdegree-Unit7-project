@@ -1,10 +1,30 @@
-import React from "react";
+import React, { Component } from "react";
 
-class SearchForm extends React.Component {
+export default class SearchForm extends Component {
+
+  state = {
+    searchText: ''
+  }
+
+  onSearchChange = e => {
+    this.setState({ searchText: e.target.value});
+  }
+
+  handleSubmit= (e) => {
+    e.preventDefault();
+    this.props.onSearch(this.query.value);
+    e.currentTarget.reset();
+
+  }
+  
   render() {
     return (
-      <form className="search-form">
-        <input type="search" name="search" placeholder="Search" required />
+      <form className="search-form" onSubmit={this.handleSubmit}>
+        <input type="search" 
+                onChange={this.onSearchChange} 
+                ref={ (input) => this.query = input}
+                name="search" 
+                placeholder="Search" required/>
         <button type="submit" className="search-button">
           <svg
             fill="#fff"
@@ -21,4 +41,4 @@ class SearchForm extends React.Component {
     );
   }
 }
-export default SearchForm;
+
