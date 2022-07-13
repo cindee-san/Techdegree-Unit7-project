@@ -21,7 +21,11 @@ export default class App extends Component {
   }
 
 componentDidMount() {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=beyonce&extras=url_c&per_page=24&format=json&nojsoncallback=1`)
+    this.performSearch();
+  }
+
+  performSearch= (query = 'stars') =>{
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&extras=url_c&per_page=24&format=json&nojsoncallback=1`)
     .then( response => {
       this.setState({
         photo: response.data.photos.photo
@@ -37,7 +41,7 @@ componentDidMount() {
     return (
       <BrowserRouter>
       <div>
-        <SearchForm onSearch={this.performSearch}/>
+        <Route path='/' render={ () => <SearchForm />} onSearch={this.performSearch}/>
         <Route component={Nav} />
       <div className="photo-container">
         <PhotoList data={this.state.photo}/>
