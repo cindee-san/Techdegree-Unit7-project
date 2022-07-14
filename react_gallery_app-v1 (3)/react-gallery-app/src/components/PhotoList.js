@@ -8,17 +8,14 @@ const PhotoList = (props) => {
   if (results.length > 0) {
     photos = results.map((photo) => <Photo url={photo.url_c} key={photo.id} />);
   } else {
-    photos = <NotFound />;
+    photos = <NotFound />
   }
-  return <ul>{photos}</ul>;
+  return (
+  <div className="photo-container">
+  <ul>{photos}</ul>
+  </div>
+  )
 };
 
 export default PhotoList;
 
-// const results = props.data.photos;
-// let photos;
-// if (results.length > 0) {
-//     photos = results.map( photo => <Photo url={photo.url_c} key={photo.id}/>)
-// }  else {
-//     photos = <NotFound />
-// };
