@@ -79,14 +79,14 @@ export default class App extends Component {
                   </div>
                 )}
               />
-               {/* <Route
+              {/* //  <Route
                 path="/:query"
                 render={() => (
                   <div className="photo-container">
                     <PhotoList data={this.state.photo} />
                   </div>
-                )} */}
-              />
+                )}
+              /> */}
               {/* Nav Routing */}
               <Route
                 exact path="/fries"
