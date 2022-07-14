@@ -20,7 +20,7 @@ export default class App extends Component {
       iguanas: [],
       beaches: [],
       query: "",
-      loading: false,
+      loading: true,
     };
   }
 
@@ -31,7 +31,7 @@ export default class App extends Component {
     this.performSearch("beaches");
   }
 
-  performSearch = (query = "galaxies") => {
+  performSearch = (query = "nebula") => {
     axios
       .get(
         `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&extras=url_c&per_page=24&format=json&nojsoncallback=1`
@@ -48,6 +48,7 @@ export default class App extends Component {
         }
         this.setState({
           query: query,
+          loading: false
         });
       })
       .catch((error) => {
@@ -63,22 +64,29 @@ export default class App extends Component {
           <div>
             {/*Search form*/}
             <SearchForm onSearch={this.performSearch} />
-
+            
             {/*/Nav*/}
             <Nav onClick={this.performSearch} />
 
             {/*/ home page*/}
             <Switch>
-              <Route
-                exact
-                path="/"
+            <Route
+                exact path="/"
                 render={() => (
                   <div className="photo-container">
+                  <h2>{`${this.state.query} Photos`}</h2>
                     <PhotoList data={this.state.photo} />
                   </div>
                 )}
               />
-
+               {/* <Route
+                path="/:query"
+                render={() => (
+                  <div className="photo-container">
+                    <PhotoList data={this.state.photo} />
+                  </div>
+                )} */}
+              />
               {/* Nav Routing */}
               <Route
                 exact path="/fries"
@@ -91,7 +99,7 @@ export default class App extends Component {
                 )}
               />
               <Route
-                path="/iguanas"
+                exact path="/iguanas"
                 render={() => (
                   <PhotoList
                     data={this.state.iguanas}
@@ -101,7 +109,7 @@ export default class App extends Component {
                 )}
               />
               <Route
-                path="/beaches"
+                exact path="/beaches"
                 render={() => (
                   <PhotoList
                     data={this.state.beaches}
