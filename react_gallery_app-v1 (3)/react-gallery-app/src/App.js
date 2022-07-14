@@ -25,7 +25,7 @@ export default class App extends Component {
     this.performSearch();
   }
 
-  performSearch = (query = "stars") => {
+  performSearch = (query = "nebulas") => {
     axios
       .get(
         `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&extras=url_c&per_page=24&format=json&nojsoncallback=1`
@@ -33,7 +33,8 @@ export default class App extends Component {
       .then((response) => {
         this.setState({
           photo: response.data.photos.photo,
-          query: query
+          query: query,
+          loading: 'Loading...'
         });
       })
       .catch((error) => {
@@ -50,11 +51,12 @@ export default class App extends Component {
           <SearchForm onSearch={this.performSearch }/>
           {/* Nav to default topics */}
           <Nav onClick={this.performSearch}/>
-          {/*/ search results page?*/}
-          <Route path='/search/:keyword' render={() => <PhotoList data={this.state.photo} loading={this.state.loading}/>}/>
+          {/*/ This also routes, but doesn't show the h2 tags*/}
+          {/* <Route path='/search/:keyword' render={() => <PhotoList data={this.state.photo} loading={this.state.loading}/>}/> */}
           
           {/*photo results display*/}
           <div className="photo-container">
+            <h2>{`${this.state.query} Photos`}</h2>
             <PhotoList data={this.state.photo} />
           </div>
           {/*/ not found*/}
