@@ -1,21 +1,39 @@
-import React from "react";
-import { NavLink } from 'react-router-dom'
+import React, { Component } from "react";
+import { NavLink, withRouter } from 'react-router-dom';
 
-const Nav = (props) => {
-  return (
-    <nav className="main-nav">
-      <ul>
-        <li>
-          <NavLink to='/search/fries' onClick={() => props.onClick('fries')}>Fries</NavLink>
-        </li>
-        <li>
-          <NavLink to='/search/iguanas' onClick={() => props.onClick('iguana')}>Iguanas</NavLink>
-        </li>
-        <li>
-          <NavLink to='/search/beaches' onClick={() => props.onClick('beaches')}>Beaches</NavLink>
-        </li>
-      </ul>
-    </nav>
-  );
+class Nav extends Component {
+  state = {
+    button: ''
+  }
+
+  handleClick= (e) => {
+    this.props.onClick(e.target.textContent.toLowerCase());
+
+    this.setState({
+      button: e.target.textContent.toLowerCase()
+    });
+  
+  }
+
+  render () {
+    return (
+      <nav className="main-nav">
+        <ul>
+          <li>
+            <NavLink to="/fries" onClick={this.handleClick}>Fries</NavLink>
+          </li>
+          <li>
+            <NavLink to="/iguanas" onClick={this.handleClick}>Iguanas</NavLink>
+          </li>
+          <li>
+            <NavLink to="/beaches" onClick={this.handleClick}>Beaches</NavLink>
+          </li>
+        </ul>
+      </nav>
+    );
+
+  }
+  
 };
-export default Nav;
+
+export default withRouter(Nav);
