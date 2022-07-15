@@ -17,38 +17,39 @@ export default class App extends Component {
     this.state = {
       photo: [],
       fries: [],
-      iguanas: [],
+      iguana: [],
       beaches: [],
       query: "",
       loading: true,
     };
   }
-
+//loads default topics and home page data
   componentDidMount() {
     this.performSearch();
-    this.performSearch("iguanas");
+    this.performSearch("iguana");
     this.performSearch("fries");
     this.performSearch("beaches");
   }
 
+  //sends fetch request for data and stores into arrays
   performSearch = (query = "nebula") => {
     axios
       .get(
         `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&extras=url_c&per_page=24&format=json&nojsoncallback=1`
       )
       .then((response) => {
-        if (query === "iguanas") {
-          this.setState({ iguanas: response.data.photos.photo });
+        if (query === "iguana") {
+          this.setState({ iguana: response.data.photos.photo });
         } else if (query === "fries") {
           this.setState({ fries: response.data.photos.photo });
         } else if (query === "beaches") {
           this.setState({ beaches: response.data.photos.photo });
-        } else {
+        } else{
+          this.setState({ query: query})
           this.setState({ photo: response.data.photos.photo });
         }
         this.setState({
-          query: query,
-          loading: false
+          loading: false,
         });
       })
       .catch((error) => {
@@ -64,32 +65,27 @@ export default class App extends Component {
           <div>
             {/*Search form*/}
             <SearchForm onSearch={this.performSearch} />
-            
+
             {/*/Nav*/}
             <Nav onClick={this.performSearch} />
 
             {/*/ home page*/}
             <Switch>
-            <Route
-                exact path="/"
+              <Route
+                exact
+                path="/"
                 render={() => (
                   <div className="photo-container">
-                  <h2>{`${this.state.query} Photos`}</h2>
-                    <PhotoList data={this.state.photo} />
+                    <PhotoList data={this.state.photo} 
+                    topic={"nebulas"}
+                    />
                   </div>
                 )}
               />
-              {/* //  <Route
-                path="/:query"
-                render={() => (
-                  <div className="photo-container">
-                    <PhotoList data={this.state.photo} />
-                  </div>
-                )}
-              /> */}
               {/* Nav Routing */}
               <Route
-                exact path="/fries"
+                exact
+                path="/fries"
                 render={() => (
                   <PhotoList
                     data={this.state.fries}
@@ -99,17 +95,19 @@ export default class App extends Component {
                 )}
               />
               <Route
-                exact path="/iguanas"
+                exact
+                path="/iguana"
                 render={() => (
                   <PhotoList
-                    data={this.state.iguanas}
+                    data={this.state.iguana}
                     loading={this.state.loading}
-                    topic={"iguanas"}
+                    topic={"iguana"}
                   />
                 )}
               />
               <Route
-                exact path="/beaches"
+                exact
+                path="/beaches"
                 render={() => (
                   <PhotoList
                     data={this.state.beaches}
@@ -120,6 +118,19 @@ export default class App extends Component {
               />
               {/*/ not found*/}
               <Route path="/NotFound" component={NotFound} />
+
+              {/* search results*/}
+              <Route
+                path="/:query"
+                render={() => (
+                  <div className="photo-container">
+                    <PhotoList data={this.state.photo} 
+                      topic={this.state.query}
+                    />
+
+                  </div>
+                )}
+              />
             </Switch>
           </div>
         </BrowserRouter>

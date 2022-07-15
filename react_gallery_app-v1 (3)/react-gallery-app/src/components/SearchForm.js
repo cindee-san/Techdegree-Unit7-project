@@ -11,9 +11,9 @@ class SearchForm extends Component {
     this.setState({ searchText: e.target.value});
   }
 
+//creates unique path based on search
   handleSubmit= (e) => {
     e.preventDefault();
-    console.log(this.props);
     this.props.onSearch(this.query.value);
     e.currentTarget.reset();
     let path = `/${this.state.searchText}`;

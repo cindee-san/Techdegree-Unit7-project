@@ -23,7 +23,7 @@ class Nav extends Component {
             <NavLink to="/fries" onClick={this.handleClick}>Fries</NavLink>
           </li>
           <li>
-            <NavLink to="/iguanas" onClick={this.handleClick}>Iguanas</NavLink>
+            <NavLink to="/iguana" onClick={this.handleClick}>Iguana</NavLink>
           </li>
           <li>
             <NavLink to="/beaches" onClick={this.handleClick}>Beaches</NavLink>
